@@ -1,24 +1,46 @@
-// server.js
-const express = require('express');
-const bodyParser = require('body-parser');
-const app = express();
-const port = 3000;
-
-app.use(bodyParser.json());
-
-const quotes = [];
-
-app.post('/addQuote', (req, res) => {
-  const { author, text } = req.body;
-  const newQuote = { author, text };
-  quotes.push(newQuote);
-  res.status(201).json(newQuote);
+// script.js
+document.addEventListener('DOMContentLoaded', function () {
+  getQuotes();
 });
 
-app.get('/getQuotes', (req, res) => {
-  res.json(quotes);
-});
+function getQuotes() {
+  fetch('/getQuotes')
+    .then(response => response.json())
+    .then(data => displayQuotes(data));
+}
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+function addQuote() {
+  const author = document.getElementById('author').value;
+  const text = document.getElementById('quote').value;
+
+  fetch('/addQuote', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ author, text }),
+  })
+    .then(response => response.json())
+    .then(newQuote => {
+      displayQuote(newQuote);
+      document.getElementById('author').value = '';
+      document.getElementById('quote').value = '';
+    });
+}
+
+function displayQuotes(quotes) {
+  const quoteList = document.getElementById('quotes');
+  quoteList.innerHTML = '';
+
+  quotes.forEach(quote => {
+    displayQuote(quote);
+  });
+}
+
+function displayQuote(quote) {
+  const quoteList = document.getElementById('quotes');
+  const quoteDiv = document.createElement('div');
+  quoteDiv.classList.add('quote');
+  quoteDiv.innerHTML = `<p><strong>${quote.author}:</strong> ${quote.text}</p>`;
+  quoteList.appendChild(quoteDiv);
+}

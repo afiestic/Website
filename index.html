@@ -5,19 +5,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
-  <title>Quote Website</title>
+  <title>Quote Board</title>
 </head>
 <body>
   <div id="app">
-    <h1>Quote Website</h1>
-    <div id="quoteForm">
+    <header>
+      <h1>Quote Board</h1>
+    </header>
+    <section id="quoteForm">
       <label for="author">Author:</label>
       <input type="text" id="author" placeholder="Enter author's name">
       <label for="quote">Quote:</label>
       <textarea id="quote" placeholder="Enter your quote"></textarea>
       <button onclick="addQuote()">Add Quote</button>
-    </div>
-    <div id="quoteList"></div>
+    </section>
+    <section id="quoteList">
+      <h2>Quotes</h2>
+      <div id="quotes"></div>
+    </section>
   </div>
   <script src="script.js"></script>
 </body>
